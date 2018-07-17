@@ -1,0 +1,15 @@
+# Read about fixtures at http://api.rubyonrails.org/classes/ActiveRecord/FixtureSet.html
+
+one:
+  email: MyString
+  encrypted_password: MyString
+  salt: MyString
+  confirm_token: MyString
+  email_confirmed: false
+
+two:
+  email: MyString
+  encrypted_password: MyString
+  salt: MyString
+  confirm_token: MyString
+  email_confirmed: false

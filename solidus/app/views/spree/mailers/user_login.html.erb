@@ -1,0 +1,6 @@
+<div>Hi <%= @user.email %></div>
+
+<div>Thanks for registering! To confirm your registration click the URL below.</div>
+<% path = "http://localhost:3000/admin/"+@user.confirm_token+"/confirm_email" %>
+
+<div><%=  link_to "confirm", path %></div>

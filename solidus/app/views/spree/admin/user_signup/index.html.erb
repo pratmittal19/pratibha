@@ -1,0 +1,174 @@
+<style type="text/css">
+.modal {
+    display: none; 
+    position: fixed; 
+    z-index: 1; 
+    left: 0;
+    top: 0;
+    width: 100%; 
+    height: 100%; 
+    overflow: auto; 
+    background-color: rgb(0,0,0); 
+    background-color: rgba(0,0,0,0.4); 
+}
+
+.modal-content {
+    background-color: #fefefe;
+    margin: 15% auto; 
+    padding: 20px;
+    border: 1px solid #888;
+    width: 80%; 
+}
+
+.close, .close1 {
+    color: #aaa;
+    float: right;
+    font-size: 28px;
+    font-weight: bold;
+}
+
+.close:hover,
+.close:focus {
+    color: black;
+    text-decoration: none;
+    cursor: pointer;
+}
+
+</style>
+<button id="myBtn">Sign up</button>
+<button id="myBtn1">Login</button>
+<div id="myModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+	    <form id="sign-up" action="">
+		    <table style="list-style: none; text-align: center;">
+		    	<tr><td>Email : </td><td><input type="text" name="email" id="email" required="true"></td></tr>
+		    	<tr><td>Password : </td><td><input type="Password" name="password" id="password" required="true"></td></tr>
+		    	<tr><td>Re Password : </td><td><input type="password" name="password" id="password1" required="true"></td></tr>
+		    </table>
+		    <input type="submit" id="submit" value="Sign up">
+		</form>
+    </ul>
+  </div>
+</div>
+<div id="myModal2" class="modal">
+  <div class="modal-content">
+    <span class="close1">&times;</span>
+	    <form id="sign-in" action="">
+		    <table style="list-style: none; text-align: center;">
+		    	<tr><td>Email : </td><td><input type="text" name="email" id="email1" required="true"></td></tr>
+		    	<tr><td>Password : </td><td><input type="Password" name="password" id="password2" required="true"></td></tr>
+		    </table>
+		    <input type="submit" id="login" value="Login">
+		</form>
+    </ul>
+  </div>
+</div>
+
+<script type="text/javascript">
+	var modal = document.getElementById('myModal');
+	var btn = document.getElementById("myBtn");
+	var span = document.getElementsByClassName("close")[0];
+	btn.onclick = function() {
+		modal.style.display = "block";
+	}
+	span.onclick = function() {
+	    modal.style.display = "none";
+	}
+	window.onclick = function(event) {
+	    if (event.target == modal) {
+	        modal.style.display = "none";
+	    }
+	}
+</script>
+
+<script type="text/javascript">
+	var modal1 = document.getElementById('myModal2');
+	var btn1 = document.getElementById("myBtn1");
+	var span1 = document.getElementsByClassName("close1")[0];
+	btn1.onclick = function() {
+		modal1.style.display = "block";
+	}
+	span1.onclick = function() {
+	    modal1.style.display = "none";
+	}
+	window.onclick = function(event) {
+	    if (event.target == modal) {
+	        modal1.style.display = "none";
+	    }
+	}
+</script>
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#submit").click(function(e){
+			e.preventDefault();
+			var pass1 = $("#password").val();
+			var pass2 = $("#password1").val();
+			if (pass1 == pass2 && pass1.length >= 6){
+				var mail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.com)+$/.test($("#email").val());
+				if (mail == true){
+					var form = $('#sign-up');
+					var data = $(form).serialize();
+					$.ajax({
+					    beforeSend: function(jqXHR, settings) {  
+					        xhr = jqXHR;   
+					    },
+					    url:'sign_up',
+					    data:data,
+					    type:'post',
+					    success: function(data)
+			            {
+		                	modal1.style.display = "none";
+		                	$("form")[0].reset();
+		                	alert(data["message"]);
+			            },
+					    error: function(XMLHttpRequest, textStatus, errorThrown)
+			            {
+	                    	alert('Failure');
+			            }
+			        });
+				}
+				else
+					alert("please fill correct mail id");
+			}
+			else
+				if(pass1 != pass2)
+				{
+				alert("password doesnt match");
+				}
+				else
+					alert("length of the password should be greater than 6");
+		});
+	});
+</script>
+
+<script type="text/javascript">
+	$(document).ready(function(){
+		$("#login").click(function(e){
+			e.preventDefault();
+			var pass = $("#password2").val();
+			var mail = /^\w+([\.-]?\w+)*@\w+([\.-]?\w+)*(\.com)+$/.test($("#email1").val());
+			if (mail == true){
+				var form = $('#sign-in');
+				var data = $(form).serialize();
+				$.ajax({
+					url:'sign_in',
+				    data:data,
+				    type:'get',
+				    success: function(data){
+				    	if (data["success"] == true)
+				    		window.location = "http://localhost/admin/welcome_page";
+				    	else
+				    		window.location = "http://localhost/admin/user_signup";
+				    },
+				    error: function(){
+				    }
+				});
+			}
+			else{
+				alert("please fill correct mail id");
+			}
+		});
+	});
+</script>
+
